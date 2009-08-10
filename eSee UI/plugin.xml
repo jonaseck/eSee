@@ -59,7 +59,7 @@
          </menu>
          <action
                class="de.unisb.cs.esee.ui.actions.MarkResourceOKContextAction"
-               enablesFor="1"
+               enablesFor="*"
                id="de.unisb.cs.esee.ui.markOkAction"
                label="Mark as not new"
                menubarPath="de.unisb.cs.esee.ui.fileContextMenu/group2">
@@ -331,5 +331,13 @@
             name="UI">
       </page>
    </extension>
-
+   <extension point="org.eclipse.ui.views">
+	<category id="de.unisb.cs.esse" name="eSee"/>
+	<view id="de.unisb.cs.esse.ui.views.modifiedresourceview" 
+		name="Modified Resource View" 
+   		class="de.unisb.cs.esee.ui.views.ModifiedResourceView"
+   		category="de.unisb.cs.esse"
+   		icon="resources/images/activateNewsIcon.png">
+   	</view>	
+   </extension>
 </plugin>

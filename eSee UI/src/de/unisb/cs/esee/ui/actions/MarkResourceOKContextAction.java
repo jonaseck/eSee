@@ -1,6 +1,7 @@
 package de.unisb.cs.esee.ui.actions;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
@@ -19,7 +20,7 @@ import de.unisb.cs.esee.core.annotate.Annotator.Location;
 import de.unisb.cs.esee.ui.decorators.NewestResourcesDecorator;
 
 public class MarkResourceOKContextAction implements IObjectActionDelegate {
-    private IResource selectedResource = null;
+    private IStructuredSelection selection = null;
 
     public MarkResourceOKContextAction() {
 	super();
@@ -29,8 +30,26 @@ public class MarkResourceOKContextAction implements IObjectActionDelegate {
 	
     }
 
-    public void run(IAction action) {
-	markResourceAndChildren(selectedResource);
+    @SuppressWarnings("unchecked")
+	public void run(IAction action) {
+    	if (this.selection != null) {
+    		Iterator iter = this.selection.iterator();
+    		while (iter.hasNext()) {
+    			IResource selectedResource = null;
+    		    Object obj = iter.next();
+
+    		    if (obj instanceof IResource)
+    		    	selectedResource = (IResource) obj;
+    		    else if (obj instanceof IJavaElement) {
+    		    	try {
+    		    		selectedResource = ((IJavaElement) obj).getCorrespondingResource();
+    		    	} catch (JavaModelException e) {
+    		    		selectedResource = null;
+    		    	}
+    		    }
+    		    markResourceAndChildren(selectedResource);
+    		}
+    	}
     }
 
     private void markResourceAndChildren(IResource res) {
@@ -65,22 +84,9 @@ public class MarkResourceOKContextAction implements IObjectActionDelegate {
     }
 
     public void selectionChanged(IAction action, ISelection selection) {
-	if (selection instanceof IStructuredSelection) {
-	    IStructuredSelection sel = (IStructuredSelection) selection;
-	    Object obj = sel.getFirstElement();
-
-	    if (obj instanceof IResource) {
-		selectedResource = (IResource) obj;
-	    } else if (obj instanceof IJavaElement) {
-		try {
-		    selectedResource = ((IJavaElement) obj).getCorrespondingResource();
-		} catch (JavaModelException e) {
-		    selectedResource = null;
-		}
-	    } else {
-		selectedResource = null;
-	    }
-	}
+    	if (selection instanceof IStructuredSelection) {
+    		this.selection = (IStructuredSelection) selection; 
+    	} else
+    		this.selection = null;
     }
-
 }
