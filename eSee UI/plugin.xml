@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
@@ -58,13 +57,8 @@
             </separator>
          </menu>
          <action
-<<<<<<< HEAD:eSee UI/plugin.xml
-               class="de.unisb.cs.esee.ui.actions.MarkResourceOKContextAction"
-               enablesFor="*"
-=======
                class="de.unisb.cs.esee.ui.actions.MarkResourceNotNewContextAction"
-               enablesFor="1"
->>>>>>> 8de2079d5fe8d83b79c05480fcf014782b3f2b2e:eSee UI/plugin.xml
+               enablesFor="*"
                id="de.unisb.cs.esee.ui.markOkAction"
                label="Mark as not new"
                menubarPath="de.unisb.cs.esee.ui.fileContextMenu/group2">
